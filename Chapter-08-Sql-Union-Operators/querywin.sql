@@ -1,0 +1,2 @@
+SELECT * FROM append1
+SELECT * FROM append2
