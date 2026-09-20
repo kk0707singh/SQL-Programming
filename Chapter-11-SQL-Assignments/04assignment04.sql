@@ -36,12 +36,39 @@ SELECT * FROM Employees
 SELECT * FROM Departments
 
 -- Write a SQL query to list the names of employees along with the names of the departments they work in.
-
+SELECT FirstName, LastName, DepartmentName FROM Employees E INNER JOIN Departments D ON e.DepartmentID = d.DepartmentID
 
 -- Write a SQL query to list all the departments and the employees working in them, including departments with no employees.
+SELECT D.DepartmentName, E.FirstName, E.LastName FROM Departments D LEFT JOIN Employees E
+ON D.DepartmentID = E.DepartmentID;
 
 -- Write a SQL query to find the names of employees who do not belong to any department (i.e., no matching department ID).
+SELECT
+    E.FirstName,
+    E.LastName
+FROM Employees AS E
+LEFT JOIN Departments AS D
+    ON E.DepartmentID = D.DepartmentID
+WHERE D.DepartmentID IS NULL;
 
 -- Write a SQL query to list the names of employees who work in the same department as 'Jane Doe'.
+SELECT
+    FirstName,
+    LastName
+FROM Employees
+WHERE DepartmentID = (
+    SELECT DepartmentID
+    FROM Employees
+    WHERE FirstName = 'Jane'
+      AND LastName = 'Doe'
+);
 
 -- Write a SQL query to find the department with the highest total salary paid to its employees.
+SELECT TOP 1
+    D.DepartmentName,
+    SUM(E.Salary) AS TotalSalary
+FROM Employees AS E
+INNER JOIN Departments AS D
+    ON E.DepartmentID = D.DepartmentID
+GROUP BY D.DepartmentName
+ORDER BY SUM(E.Salary) DESC;
