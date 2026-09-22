@@ -53,6 +53,7 @@ SELECT * FROM #temp1
 
 
 
+
 SELECT * FROM Employees
 SELECT * into #1 FROM Employees
 SELECT * FROM #1
