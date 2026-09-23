@@ -76,7 +76,6 @@ with cte3 as(
 SELECT * into #2 FROM (
     SELECT * FROM cte3 UNION all SELECT * FROM cte4
 ) x
-
 SELECT * FROM #2
 
 
@@ -93,4 +92,27 @@ insert into #2 SELECT * FROM (
 
 SELECT * FROM #2
 
+
 -- Example4:
+with cte3 as(
+    SELECT EmployeeID, FirstName, Salary FROM #1 WHERE EmployeeID = 2
+), cte4 as(
+    SELECT EmployeeID, FirstName, Salary FROM #1 where EmployeeID = 4
+)
+DELETE FROM #1 WHERE EmployeeID in(SELECT DISTINCT EmployeeID FROM cte3
+UNION ALL
+SELECT DISTINCT EmployeeID from cte4
+)
+
+-- Example5:
+with cte3 as(
+    SELECT EmployeeID, FirstName, Salary FROM #1 WHERE EmployeeID = 9
+), cte4 as(
+    SELECT EmployeeID, FirstName, Salary FROM #1 where EmployeeID = 10
+)
+UPDATE #1 SET EmployeeID = 100 WHERE EmployeeID in(SELECT DISTINCT EmployeeID FROM cte3
+UNION ALL
+SELECT DISTINCT EmployeeID from cte4
+)
+
+SELECT * FROM #1
